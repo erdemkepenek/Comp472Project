@@ -21,6 +21,23 @@ print(maxd)
 print(maxl)
 print(board)
 
+class Board:
+    def __init__(self, placements, priorities):
+        self.placements = placements
+        self.priorities = priorities
+    def __repr__(self):
+        return repr((self.placements))
+
+
+def sortArrayDFS(boards):
+    priorities =[]
+    for board in boards:
+        x = Board(board,[i for i, val in enumerate(board) if val == '0'])
+        priorities.append(x)
+    print(priorities)
+    return sorted(priorities, key=lambda nodes: nodes.priorities)
+
+
 def changeDot(dot):
     if dot == '0':
         return '1'
@@ -68,5 +85,22 @@ def flip(board,index):
 
     return(board)
 
-new_board = flip(board,12)
+new_board = flip(board,1)
 print(new_board)
+print([i for i,val in enumerate(new_board) if val=='0'])
+
+list12 = ['1', '1', '1', '0', '1', '0', '0', '1', '0', '1', '0', '0', '1', '0', '1', '1']
+list13 = ['1', '1', '1', '1', '1', '0', '0', '1', '0', '1', '0', '0', '1', '0', '1', '1']
+list1 = ['0', '0', '1', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0', '1', '1', '1']
+list2 = ['0', '0', '0', '0', '1', '1', '0', '1', '1', '1', '0', '0', '0', '1', '1', '1']
+list3 = ['0', '0', '0', '1', '0', '0', '0', '1', '1', '1', '0', '0', '0', '1', '1', '1']
+
+lists = []
+lists.append(list1)
+lists.append(list2)
+lists.append(list12)
+lists.append(list13)
+lists.append(list3)
+
+print(sortArrayDFS(lists))
+
