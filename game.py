@@ -1,42 +1,26 @@
-counter = 0
+import copy
+
+wordCounter = 0
 matriceSize = 0
 maxd = 0
 maxl = 0
-board = 0
+inputBoard = 0
 gameOver = False
+stack =[]
+visited = []
+child = 0
+depth = 0
 with open('textInputFile.txt','r') as f:
     for line in f:
-        for word in line.split():
-            if(counter==0):
-                matriceSize = int(word)
-            if(counter==1):
-                maxd = int(word)
-            if(counter==2):
-                maxl = int(word)
-            if(counter==3):
-                board = list(word)
-            counter+=1
+        print(line.split())
+        matriceSize = int(line.split()[0])
+        maxd = int(line.split()[1])
+        maxl = int(line.split()[2])
+        inputBoard = list(line.split()[3])
 print(matriceSize)
 print(maxd)
 print(maxl)
-print(board)
-
-class Board:
-    def __init__(self, placements, priorities):
-        self.placements = placements
-        self.priorities = priorities
-    def __repr__(self):
-        return repr((self.placements))
-
-
-def sortArrayDFS(boards):
-    priorities =[]
-    for board in boards:
-        x = Board(board,[i for i, val in enumerate(board) if val == '0'])
-        priorities.append(x)
-    print(priorities)
-    return sorted(priorities, key=lambda nodes: nodes.priorities)
-
+print(inputBoard)
 
 def changeDot(dot):
     if dot == '0':
@@ -45,62 +29,123 @@ def changeDot(dot):
         return '0'
 
 def flip(board,index):
-    board[index] = changeDot(board[index])
+    newBoard = copy.deepcopy(board)
+    newBoard[index] = changeDot(newBoard[index])
     if (index+matriceSize)%matriceSize == 0:
         if index == 0:
-            board[index+1] = changeDot(board[index+1])
-            board[index + matriceSize] = changeDot(board[index + matriceSize])
-        elif index == len(board) - matriceSize:
-            board[index + 1] = changeDot(board[index + 1])
-            board[index - matriceSize] = changeDot(board[index - matriceSize])
+            newBoard[index+1] = changeDot(newBoard[index+1])
+            newBoard[index + matriceSize] = changeDot(newBoard[index + matriceSize])
+        elif index == len(newBoard) - matriceSize:
+            newBoard[index + 1] = changeDot(newBoard[index + 1])
+            newBoard[index - matriceSize] = changeDot(newBoard[index - matriceSize])
         else:
-            board[index + 1] = changeDot(board[index + 1])
-            board[index + matriceSize] = changeDot(board[index + matriceSize])
-            board[index - matriceSize] = changeDot(board[index - matriceSize])
+            newBoard[index + 1] = changeDot(newBoard[index + 1])
+            newBoard[index + matriceSize] = changeDot(newBoard[index + matriceSize])
+            newBoard[index - matriceSize] = changeDot(newBoard[index - matriceSize])
     elif (index+matriceSize)%matriceSize == matriceSize-1:
         if index == matriceSize-1:
-            board[index - 1] = changeDot(board[index - 1])
-            board[index + matriceSize] = changeDot(board[index + matriceSize])
-        elif index == len(board)-1:
-            board[index - 1] = changeDot(board[index - 1])
-            board[index - matriceSize] = changeDot(board[index - matriceSize])
+            newBoard[index - 1] = changeDot(newBoard[index - 1])
+            newBoard[index + matriceSize] = changeDot(newBoard[index + matriceSize])
+        elif index == len(newBoard)-1:
+            newBoard[index - 1] = changeDot(newBoard[index - 1])
+            newBoard[index - matriceSize] = changeDot(newBoard[index - matriceSize])
         else:
-            board[index - 1] = changeDot(board[index - 1])
-            board[index + matriceSize] = changeDot(board[index + matriceSize])
-            board[index - matriceSize] = changeDot(board[index - matriceSize])
+            newBoard[index - 1] = changeDot(newBoard[index - 1])
+            newBoard[index + matriceSize] = changeDot(newBoard[index + matriceSize])
+            newBoard[index - matriceSize] = changeDot(newBoard[index - matriceSize])
     else:
         if index < matriceSize:
-            board[index - 1] = changeDot(board[index - 1])
-            board[index + 1] = changeDot(board[index + 1])
-            board[index + matriceSize] = changeDot(board[index + matriceSize])
+            newBoard[index - 1] = changeDot(newBoard[index - 1])
+            newBoard[index + 1] = changeDot(newBoard[index + 1])
+            newBoard[index + matriceSize] = changeDot(newBoard[index + matriceSize])
         elif index > (len(board) - matriceSize):
-            board[index - 1] = changeDot(board[index - 1])
-            board[index + 1] = changeDot(board[index + 1])
-            board[index - matriceSize] = changeDot(board[index - matriceSize])
+            newBoard[index - 1] = changeDot(newBoard[index - 1])
+            newBoard[index + 1] = changeDot(newBoard[index + 1])
+            newBoard[index - matriceSize] = changeDot(newBoard[index - matriceSize])
         else:
-            board[index - 1] = changeDot(board[index - 1])
-            board[index + 1] = changeDot(board[index + 1])
-            board[index - matriceSize] = changeDot(board[index - matriceSize])
-            board[index + matriceSize] = changeDot(board[index + matriceSize])
+            newBoard[index - 1] = changeDot(newBoard[index - 1])
+            newBoard[index + 1] = changeDot(newBoard[index + 1])
+            newBoard[index - matriceSize] = changeDot(newBoard[index - matriceSize])
+            newBoard[index + matriceSize] = changeDot(newBoard[index + matriceSize])
 
-    return(board)
+    return(newBoard)
 
-new_board = flip(board,1)
-print(new_board)
-print([i for i,val in enumerate(new_board) if val=='0'])
+def sortArrayDFS(boards):
+    priorities =[]
+    print("boards",boards)
+    for board in boards:
+        x = (board[0],[i for i, val in enumerate(board[0]) if val == '0' and val != '1'])
+        print("x",x)
+        priorities.append(x)
+    return [i[0] for i in sorted(priorities, key=lambda nodes: nodes[1])]
 
-list12 = ['1', '1', '1', '0', '1', '0', '0', '1', '0', '1', '0', '0', '1', '0', '1', '1']
-list13 = ['1', '1', '1', '1', '1', '0', '0', '1', '0', '1', '0', '0', '1', '0', '1', '1']
-list1 = ['0', '0', '1', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0', '1', '1', '1']
-list2 = ['0', '0', '0', '0', '1', '1', '0', '1', '1', '1', '0', '0', '0', '1', '1', '1']
-list3 = ['0', '0', '0', '1', '0', '0', '0', '1', '1', '1', '0', '0', '0', '1', '1', '1']
+def playForAllScenarios(board,depth):
+    allPlays = []
+    for x in range(len(inputBoard)):
+        play = flip(board[0],x)
+        allPlays.append((play,depth))
+    print("allPlays",allPlays)
+    return allPlays
 
-lists = []
-lists.append(list1)
-lists.append(list2)
-lists.append(list12)
-lists.append(list13)
-lists.append(list3)
+def dfs(boards,counter):
+    print("stack",stack)
+    global gameOver
+    print("game Over", gameOver)
+    if gameOver is False:
+        sortedBoards = sortArrayDFS(boards)
+        reversed_list = sortedBoards[::-1]
+        print("Reversed List",reversed_list)
+        print("counter", counter)
+        if counter < maxd:
+            for board in reversed_list:
+                print("stack append",(board,counter))
+                stack.append((board,counter))
+                if "1" not in board:
+                    gameOver = True
+                    break;
+            if gameOver is False:
+                counter += 1
+                top = stack.pop()
+                print("stack pop",top)
+                dfs(playForAllScenarios(top,counter),counter)
+            else:
+                dfs(reversed_list,0)
+        if counter == maxd:
+            for board in reversed_list:
+                if "1" not in board:
+                    gameOver = True
+                    break
+            if gameOver is False:
+                top = stack.pop()
+                print("stack pop", top)
+                counter = top[1]
+                dfs(playForAllScenarios(top,counter),top[1])
+            else:
+                dfs(reversed_list,counter)
 
-print(sortArrayDFS(lists))
+    else:
+        print("finish")
+
+
+
+# list12 = ['1', '1', '1', '0', '1', '0', '0', '1', '0', '1', '0', '0', '1', '0', '1', '1']
+# list13 = ['1', '1', '1', '1', '1', '0', '0', '1', '0', '1', '0', '0', '1', '0', '1', '1']
+# list1 = ['0', '0', '1', '0']
+# list2 = ['0', '0', '0', '0', '1', '1', '0', '1', '1', '1', '0', '0', '0', '1', '1', '1']
+# list3 = ['0', '0', '0', '1', '0', '0', '0', '1', '1', '1', '0', '0', '0', '1', '1', '1']
+#
+# lists = []
+# lists.append(list1)
+# lists.append(list2)
+# lists.append(list12)
+# lists.append(list13)
+# lists.append(list3)
+
+# print(sortArrayDFS(lists))
+secondDimension = []
+secondDimension.append((inputBoard,1))
+stack.append((inputBoard,1))
+# secondDimension.append(list1)
+dfs(secondDimension,1)
+
 
