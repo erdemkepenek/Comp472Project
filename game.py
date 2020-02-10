@@ -10,6 +10,7 @@ stack =[]
 visited = []
 child = 0
 depth = 0
+dfsSolution = open("# dfs solution.txt", "w")
 with open('textInputFile.txt','r') as f:
     for line in f:
         print(line.split())
@@ -106,6 +107,9 @@ def dfs(boards,counter):
             if gameOver is False:
                 counter += 1
                 top = stack.pop()
+                string = ""
+                print("hello"+str(top[1])+" "+string.join(top[0])+"\n")
+                dfsSolution.write(str(top[1])+" "+string.join(top[0])+"\n")
                 print("stack pop",top)
                 dfs(playForAllScenarios(top,counter),counter)
             else:
@@ -116,14 +120,20 @@ def dfs(boards,counter):
                     gameOver = True
                     break
             if gameOver is False:
-                top = stack.pop()
-                print("stack pop", top)
-                counter = top[1]
-                dfs(playForAllScenarios(top,counter),top[1])
+                if len(stack) == 0:
+                    gameOver = True
+                else:
+                    top = stack.pop()
+                    string = ""
+                    dfsSolution.write(str(top[1]+1) + " " + string.join(top[0]) + "\n")
+                    print("stack pop", top)
+                    counter = top[1]
+                    dfs(playForAllScenarios(top,counter),top[1])
             else:
                 dfs(reversed_list,counter)
 
     else:
+        dfsSolution.close()
         print("finish")
 
 
