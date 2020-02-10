@@ -10,7 +10,7 @@ stack =[]
 visited = []
 child = 0
 depth = 0
-dfsSolution = open("# dfs solution.txt", "w")
+dfsSolution = open("dfsSsolution.txt", "w")
 with open('textInputFile.txt','r') as f:
     for line in f:
         print(line.split())
@@ -103,7 +103,7 @@ def dfs(boards,counter):
                 stack.append((board,counter))
                 if "1" not in board:
                     gameOver = True
-                    break;
+                    break
             if gameOver is False:
                 counter += 1
                 top = stack.pop()
@@ -113,15 +113,24 @@ def dfs(boards,counter):
                 print("stack pop",top)
                 dfs(playForAllScenarios(top,counter),counter)
             else:
+                top = stack.pop()
+                string = ""
+                dfsSolution.write(str(top[1] + 1) + " " + string.join(top[0]) + "\n")
+                dfsSolution.close()
                 dfs(reversed_list,0)
-        if counter == maxd:
+        elif counter == maxd:
             for board in reversed_list:
                 if "1" not in board:
                     gameOver = True
                     break
             if gameOver is False:
                 if len(stack) == 0:
-                    gameOver = True
+                    print("No solution")
+                    print("finish")
+                    dfsSolution.close()
+                    dfsSolution2 = open("dfsSsolution.txt", "w")
+                    dfsSolution2.write("No Solution")
+                    dfsSolution2.close()
                 else:
                     top = stack.pop()
                     string = ""
@@ -130,10 +139,13 @@ def dfs(boards,counter):
                     counter = top[1]
                     dfs(playForAllScenarios(top,counter),top[1])
             else:
+                top = stack.pop()
+                string = ""
+                dfsSolution.write(str(top[1] + 1) + " " + string.join(top[0]) + "\n")
+                dfsSolution.close()
                 dfs(reversed_list,counter)
 
     else:
-        dfsSolution.close()
         print("finish")
 
 
