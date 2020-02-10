@@ -128,7 +128,7 @@ def dfs(boards,counter):
                     print("No solution")
                     print("finish")
                     dfsSolution.close()
-                    dfsSolution2 = open("dfsSsolution.txt", "w")
+                    dfsSolution2 = open("dfsSolution.txt", "w")
                     dfsSolution2.write("No Solution")
                     dfsSolution2.close()
                 else:
