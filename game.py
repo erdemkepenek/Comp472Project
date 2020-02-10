@@ -10,7 +10,7 @@ stack =[]
 visited = []
 child = 0
 depth = 0
-dfsSolution = open("dfsSsolution.txt", "w")
+dfsSolution = open("dfsSolution.txt", "w")
 with open('textInputFile.txt','r') as f:
     for line in f:
         print(line.split())
