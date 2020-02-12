@@ -12,7 +12,7 @@ stack =[]
 visited = []
 child = 0
 depth = 0
-dfsSolution = open("dfsSsolution.txt", "w")
+dfsSolution = open("dfsSolution.txt", "w")
 with open('textInputFile.txt','r') as f:
     for line in f:
         print(line.split())
@@ -131,7 +131,7 @@ def dfs(boards,counter):
                 if gameOver is False:
                     print("No solution")
                     dfsSolution.close()
-                    dfsSolution2 = open("dfsSsolution.txt", "w")
+                    dfsSolution2 = open("dfsSolution.txt", "w")
                     dfsSolution2.write("No Solution")
                     dfsSolution2.close()
                     exit = True
