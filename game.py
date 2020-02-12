@@ -6,6 +6,8 @@ maxd = 0
 maxl = 0
 inputBoard = 0
 gameOver = False
+stopEditing = False
+exit = False
 stack =[]
 visited = []
 child = 0
@@ -91,60 +93,61 @@ def playForAllScenarios(board,depth):
 def dfs(boards,counter):
     print("stack",stack)
     global gameOver
+    global stopEditing
+    global exit
     print("game Over", gameOver)
-    if gameOver is False:
-        sortedBoards = sortArrayDFS(boards)
-        reversed_list = sortedBoards[::-1]
-        print("Reversed List",reversed_list)
-        print("counter", counter)
+    sortedBoards = sortArrayDFS(boards)
+    reversed_list = sortedBoards[::-1]
+    print("Reversed List",reversed_list)
+    print("counter", counter)
+    if exit is False:
         if counter < maxd:
             for board in reversed_list:
                 print("stack append",(board,counter))
                 stack.append((board,counter))
                 if "1" not in board:
                     gameOver = True
-                    break
+                    if gameOver is True and stopEditing is False:
+                        string = ""
+                        dfsSolution.write(str(counter) + " " + string.join(board) + "\n")
+                        stopEditing = True
+            counter += 1
+            top = stack.pop()
             if gameOver is False:
-                counter += 1
-                top = stack.pop()
                 string = ""
-                print("hello"+str(top[1])+" "+string.join(top[0])+"\n")
-                dfsSolution.write(str(top[1])+" "+string.join(top[0])+"\n")
-                print("stack pop",top)
-                dfs(playForAllScenarios(top,counter),counter)
-            else:
-                top = stack.pop()
-                string = ""
-                dfsSolution.write(str(top[1] + 1) + " " + string.join(top[0]) + "\n")
-                dfsSolution.close()
-                dfs(reversed_list,0)
+                dfsSolution.write(str(top[1]) + " " + string.join(top[0]) + "\n")
+                print("stack pop", top)
+            dfs(playForAllScenarios(top, counter), counter)
+            print("stack", stack)
         elif counter == maxd:
             for board in reversed_list:
                 if "1" not in board:
                     gameOver = True
-                    break
-            if gameOver is False:
-                if len(stack) == 0:
+                    if gameOver is True and stopEditing is False:
+                        string = ""
+                        dfsSolution.write(str(counter) + " " + string.join(board) + "\n")
+                        stopEditing = True
+            if len(stack) == 0:
+                if gameOver is False:
                     print("No solution")
-                    print("finish")
                     dfsSolution.close()
                     dfsSolution2 = open("dfsSsolution.txt", "w")
                     dfsSolution2.write("No Solution")
                     dfsSolution2.close()
-                else:
-                    top = stack.pop()
-                    string = ""
-                    dfsSolution.write(str(top[1]+1) + " " + string.join(top[0]) + "\n")
-                    print("stack pop", top)
-                    counter = top[1]
-                    dfs(playForAllScenarios(top,counter),top[1])
+                    exit = True
+                else :
+                    dfsSolution.close()
+                print("finish")
             else:
                 top = stack.pop()
-                string = ""
-                dfsSolution.write(str(top[1] + 1) + " " + string.join(top[0]) + "\n")
-                dfsSolution.close()
-                dfs(reversed_list,counter)
-
+                print(counter)
+                if gameOver is False:
+                    string = ""
+                    dfsSolution.write(str(top[1]) + " " + string.join(top[0]) + "\n")
+                    print("stack pop", top)
+                counter = top[1]
+                dfs(playForAllScenarios(top,counter),top[1])
+                print("top[1]", top[1])
     else:
         print("finish")
 
