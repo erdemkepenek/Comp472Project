@@ -13,6 +13,7 @@ visited = []
 child = 0
 depth = 0
 dfsSolution = open("dfsSolution.txt", "w")
+dfsSearch = open("dfsSearch.txt","w")
 with open('textInputFile.txt','r') as f:
     for line in f:
         print(line.split())
@@ -75,10 +76,10 @@ def flip(board,index):
 
 def sortArrayDFS(boards):
     priorities =[]
-    print("boards",boards)
+    # print("boards",boards)
     for board in boards:
         x = (board[0],[i for i, val in enumerate(board[0]) if val == '0' and val != '1'])
-        print("x",x)
+        # print("x",x)
         priorities.append(x)
     return [i[0] for i in sorted(priorities, key=lambda nodes: nodes[1])]
 
@@ -87,24 +88,32 @@ def playForAllScenarios(board,depth):
     for x in range(len(inputBoard)):
         play = flip(board[0],x)
         allPlays.append((play,depth))
-    print("allPlays",allPlays)
+    # print("allPlays",allPlays)
     return allPlays
 
-def dfs(boards,counter):
-    print("stack",stack)
+
+def dfs(boards):
     global gameOver
     global stopEditing
     global exit
-    print("game Over", gameOver)
-    sortedBoards = sortArrayDFS(boards)
-    reversed_list = sortedBoards[::-1]
-    print("Reversed List",reversed_list)
-    print("counter", counter)
-    if exit is False:
+    counter = 1
+    boards = boards
+    while exit is False:
+        print(stack)
+        print(counter)
+        sortedBoards = sortArrayDFS(boards)
+        reversed_list = sortedBoards[::-1]
+        # print("stack", stack)
+        # print("game Over", gameOver)
+        # print("Reversed List", reversed_list)
+        # print("counter", counter)
         if counter < maxd:
             for board in reversed_list:
-                print("stack append",(board,counter))
+                # print("stack append",(board,counter))
+                string = ""
                 stack.append((board,counter))
+                # dfsSearch.write((str(0) + " " + str(0) + " " + str(0) + " " + string.join(board) + "\n"))
+                dfsSearch.write((str(counter) + " " + string.join(board) + "\n"))
                 if "1" not in board:
                     gameOver = True
                     if gameOver is True and stopEditing is False:
@@ -113,14 +122,15 @@ def dfs(boards,counter):
                         stopEditing = True
             counter += 1
             top = stack.pop()
+            # print("stack pop", top)
             if gameOver is False:
                 string = ""
                 dfsSolution.write(str(top[1]) + " " + string.join(top[0]) + "\n")
-                print("stack pop", top)
-            dfs(playForAllScenarios(top, counter), counter)
-            print("stack", stack)
+            boards = playForAllScenarios(top, counter)
         elif counter == maxd:
             for board in reversed_list:
+                # dfsSearch.write((str(0) + " " + str(0) + " " + str(0) + " " + string.join(board) + "\n"))
+                dfsSearch.write((str(counter) + " " + string.join(board) + "\n"))
                 if "1" not in board:
                     gameOver = True
                     if gameOver is True and stopEditing is False:
@@ -128,49 +138,34 @@ def dfs(boards,counter):
                         dfsSolution.write(str(counter) + " " + string.join(board) + "\n")
                         stopEditing = True
             if len(stack) == 0:
+                exit = True
                 if gameOver is False:
-                    print("No solution")
+                    # print("No solution")
                     dfsSolution.close()
                     dfsSolution2 = open("dfsSolution.txt", "w")
                     dfsSolution2.write("No Solution")
                     dfsSolution2.close()
-                    exit = True
                 else :
                     dfsSolution.close()
                 print("finish")
             else:
                 top = stack.pop()
-                print(counter)
+                # print("stack pop", top)
                 if gameOver is False:
                     string = ""
                     dfsSolution.write(str(top[1]) + " " + string.join(top[0]) + "\n")
-                    print("stack pop", top)
-                counter = top[1]
-                dfs(playForAllScenarios(top,counter),top[1])
-                print("top[1]", top[1])
-    else:
-        print("finish")
+                if(top[1] == maxd-1):
+                    counter = maxd
+                else:
+                    counter = top[1]+1
+                print(counter)
+                boards = playForAllScenarios(top,counter)
 
 
 
-# list12 = ['1', '1', '1', '0', '1', '0', '0', '1', '0', '1', '0', '0', '1', '0', '1', '1']
-# list13 = ['1', '1', '1', '1', '1', '0', '0', '1', '0', '1', '0', '0', '1', '0', '1', '1']
-# list1 = ['0', '0', '1', '0']
-# list2 = ['0', '0', '0', '0', '1', '1', '0', '1', '1', '1', '0', '0', '0', '1', '1', '1']
-# list3 = ['0', '0', '0', '1', '0', '0', '0', '1', '1', '1', '0', '0', '0', '1', '1', '1']
-#
-# lists = []
-# lists.append(list1)
-# lists.append(list2)
-# lists.append(list12)
-# lists.append(list13)
-# lists.append(list3)
-
-# print(sortArrayDFS(lists))
 secondDimension = []
 secondDimension.append((inputBoard,1))
-stack.append((inputBoard,1))
-# secondDimension.append(list1)
-dfs(secondDimension,1)
+# stack.append((inputBoard,1))
+dfs(secondDimension)
 
 
