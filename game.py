@@ -91,6 +91,26 @@ def playForAllScenarios(board,depth):
     # print("allPlays",allPlays)
     return allPlays
 
+def heuristic(boards):
+    priorities = []
+    # print("boards",boards)
+    for board in boards:
+        x = (board[0], board[0].count('0'))
+        # print("x",x)
+        priorities.append(x)
+    return [i[0] for i in sorted(priorities, key=lambda nodes: nodes[1])]
+
+def bfs(boards):
+    global gameOver
+    global stopEditing
+    global exit
+    counter = 1
+    openedList = []
+    closedList = []
+    # while exit is False:
+
+
+
 
 def dfs(boards):
     global gameOver
@@ -165,7 +185,15 @@ def dfs(boards):
 
 secondDimension = []
 secondDimension.append((inputBoard,1))
+inputboard2 = list("1111111111000111")
+inputboard3 = list("1111111111111111")
+inputboard4 = list("1011111111111111")
+secondDimension.append((inputboard2,1))
+secondDimension.append((inputboard3,1))
+secondDimension.append((inputboard4,1))
+print(heuristic(secondDimension))
 # stack.append((inputBoard,1))
-dfs(secondDimension)
+# dfs(secondDimension)
+
 
 

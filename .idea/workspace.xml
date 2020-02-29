@@ -20,15 +20,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="131" column="16" selection-start-line="131" selection-start-column="18" selection-end-line="131" selection-end-column="107" />
+            <state relative-caret-position="246">
+              <caret line="99" column="28" selection-start-line="99" selection-start-column="28" selection-end-line="99" selection-end-column="28" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dfsSearch.txt">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -40,14 +35,9 @@
         <entry file="file://$PROJECT_DIR$/textInputFile.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="4" selection-start-column="4" selection-end-column="4" />
+              <caret column="7" lean-forward="true" selection-start-column="7" selection-end-column="23" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dfsSolution.txt">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -99,7 +89,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -111,6 +100,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -196,7 +186,8 @@
       <workItem from="1581204417208" duration="1344000" />
       <workItem from="1581292601245" duration="4319000" />
       <workItem from="1581299639302" duration="3162000" />
-      <workItem from="1581448126007" duration="7348000" />
+      <workItem from="1581448126007" duration="8151000" />
+      <workItem from="1582993285103" duration="2505000" />
     </task>
     <task id="LOCAL-00001" summary="flip function">
       <created>1580426298657</created>
@@ -240,17 +231,23 @@
       <option name="project" value="LOCAL" />
       <updated>1581543463595</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="bug fix dfs">
+      <created>1581620405522</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1581620405522</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50148000" />
+    <option name="totallyTimeSpent" value="53456000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15063593" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20415778" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -263,7 +260,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32969603" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49920508" visible="true" weight="0.25798908" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.49920508" visible="true" weight="0.16576381" />
       <window_info anchor="bottom" id="Python Console" order="11" weight="0.3289166" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5007949" side_tool="true" weight="0.1543258" />
       <window_info anchor="bottom" id="Messages" order="13" />
@@ -284,7 +281,8 @@
     <MESSAGE value="dfs solution text file creation implementation" />
     <MESSAGE value="dfs solution text file handled no solution" />
     <MESSAGE value="bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
+    <MESSAGE value="bug fix dfs" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fix dfs" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Comp472Project/.gitignore" />
@@ -305,29 +303,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/# dfs solution.txt" />
     <entry file="file://$PROJECT_DIR$/dfs solution.txt" />
-    <entry file="file://$PROJECT_DIR$/dfsSsolution.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
+    <entry file="file://$PROJECT_DIR$/dfsSsolution.txt" />
+    <entry file="file://$PROJECT_DIR$/dfsSearch.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/dfsSolution.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/textInputFile.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="4" selection-start-column="4" selection-end-column="4" />
+          <caret column="7" lean-forward="true" selection-start-column="7" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dfsSearch.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="131" column="16" selection-start-line="131" selection-start-column="18" selection-end-line="131" selection-end-column="107" />
+        <state relative-caret-position="246">
+          <caret line="99" column="28" selection-start-line="99" selection-start-column="28" selection-end-line="99" selection-end-column="28" />
         </state>
       </provider>
     </entry>
