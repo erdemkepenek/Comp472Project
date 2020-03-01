@@ -14,6 +14,10 @@ child = 0
 depth = 0
 dfsSolution = open("dfsSolution.txt", "w")
 dfsSearch = open("dfsSearch.txt","w")
+bfsSolution = open("bfsSolution.txt", "w")
+bfsSearch = open("bfsSearch.txt","w")
+astarSolution = open("astarSolution.txt", "w")
+astarSearch = open("astarSearch.txt","w")
 with open('textInputFile.txt','r') as f:
     for line in f:
         print(line.split())
@@ -74,6 +78,33 @@ def flip(board,index):
 
     return(newBoard)
 
+def generateChar(index):
+    character = 0
+    if index < matriceSize:
+        number = (index+matriceSize)%matriceSize
+        character = "A"+str(number+1)
+    else:
+        number = index % matriceSize
+        if(int(index/matriceSize) == 1):
+            character = "B" + str(number + 1)
+        elif(int(index/matriceSize) == 2):
+            character = "C" + str(number + 1)
+        elif (int(index / matriceSize) == 3):
+            character = "D" + str(number + 1)
+        elif (int(index / matriceSize) == 4):
+            character = "E" + str(number + 1)
+        elif (int(index / matriceSize) == 5):
+            character = "F" + str(number + 1)
+        elif (int(index / matriceSize) == 6):
+            character = "G" + str(number + 1)
+        elif (int(index / matriceSize) == 7):
+            character = "H" + str(number + 1)
+        elif (int(index / matriceSize) == 8):
+            character = "I" + str(number + 1)
+        else:
+            character = "J" + str(number + 1)
+    return character
+
 def sortArrayDFS(boards):
     priorities =[]
     # print("boards",boards)
@@ -83,31 +114,149 @@ def sortArrayDFS(boards):
         priorities.append(x)
     return [i[0] for i in sorted(priorities, key=lambda nodes: nodes[1])]
 
+
 def playForAllScenarios(board,depth):
     allPlays = []
     for x in range(len(inputBoard)):
         play = flip(board[0],x)
-        allPlays.append((play,depth))
-    # print("allPlays",allPlays)
+        char = generateChar(x)
+        allPlays.append((play,depth,0,char))
     return allPlays
 
-def heuristic(boards):
+def h(boards):
     priorities = []
     # print("boards",boards)
     for board in boards:
-        x = (board[0], board[0].count('0'))
+        x = (board[0], board[1], board[0].count('1'), board[3])
         # print("x",x)
         priorities.append(x)
-    return [i[0] for i in sorted(priorities, key=lambda nodes: nodes[1])]
+    sortedBoards = sorted(priorities, key=lambda nodes: nodes[2])
+    return sortedBoards[::-1]
+
+def g(boards):
+    priorities = []
+    # print("boards",boards)
+    for board in boards:
+        x = (board[0], board[1],board[0].count('1'))
+        # print("x",x)
+        priorities.append(x)
+    return sorted(priorities, key=lambda nodes: nodes[1])
+
+def f(boards):
+    priorities = []
+    # print("boards",boards)
+    for board in boards:
+        x = (board[0], board[1],board[0].count('1'), board[3])
+        # print("x",x)
+        priorities.append(x)
+    sortedBoards = sorted(priorities, key=lambda nodes: nodes[1]+nodes[2])
+    return sortedBoards[::-1]
+
+
+def astar(boards):
+    global gameOver
+    global stopEditing
+    openedList = []
+    closedList = []
+    childNodeBoards = boards
+    while gameOver is False:
+        openedList = openedList + childNodeBoards
+        openedList = f(openedList)
+        top = openedList.pop()
+        nodeBoard = ''.join(top[0])
+        astarSearch.write(str(top[2]+top[1]) + " " + str(top[2]) + " " + str(top[1]) + " " + nodeBoard + "\n")
+        if ("1" not in top[0] and stopEditing is False):
+            astarSolution.write(str(top[3]) + " " + nodeBoard + "\n")
+            stopEditing = True
+        else:
+            if (stopEditing is False):
+                astarSolution.write(str(top[3]) + " " + nodeBoard + "\n")
+        while nodeBoard in closedList or top[1] >= maxl:
+            if len(openedList) != 0:
+                top = openedList.pop()
+                nodeBoard = ''.join(top[0])
+                # print(top)
+                astarSearch.write(str(top[2]+top[1]) + " " + str(top[2]) + " " + str(top[1]) + " " + nodeBoard + "\n")
+                if ("1" not in top[0] and stopEditing is False):
+                    astarSolution.write(str(top[3]) + " " + nodeBoard + "\n")
+                    stopEditing = True
+                else:
+                    if (stopEditing is False):
+                        astarSolution.write(str(top[3]) + " " + nodeBoard + "\n")
+            else:
+                gameOver = True
+                break
+        if (nodeBoard not in closedList and gameOver is False):
+            closedList.append(nodeBoard)
+            childNodeBoards = playForAllScenarios(top, top[1] + 1)
+    astarSearch.close()
+    astarSolution.close()
+    print(stopEditing)
+    if (stopEditing is False):
+        astarSolution2 = open("astarSolution.txt", "w")
+        astarSolution2.write("No Solution")
+        astarSolution2.close()
+
+
 
 def bfs(boards):
     global gameOver
     global stopEditing
-    global exit
-    counter = 1
     openedList = []
     closedList = []
-    # while exit is False:
+    childNodeBoards = boards
+    while gameOver is False:
+        # print(closedList)
+        openedList = openedList + childNodeBoards
+        openedList = h(openedList)
+        # print(stopEditing)
+        # print(openedList)
+        top = openedList.pop()
+        nodeBoard=''.join(top[0])
+        # print(top)
+        bfsSearch.write(str(top[2]) + " " + str(top[2]) + " 0 " + nodeBoard + "\n")
+        if ("1" not in top[0] and stopEditing is False):
+            bfsSolution.write(str(top[3]) + " " + nodeBoard + "\n")
+            stopEditing = True
+        else:
+            if (stopEditing is False):
+                bfsSolution.write(str(top[3]) + " " + nodeBoard + "\n")
+        while nodeBoard in closedList or top[1] >= maxl:
+            if len(openedList) != 0:
+                top = openedList.pop()
+                nodeBoard = ''.join(top[0])
+                # print(top)
+                bfsSearch.write(str(top[2]) + " " + str(top[2]) + " 0 " + nodeBoard + "\n")
+                if ("1" not in top[0] and stopEditing is False):
+                    bfsSolution.write(str(top[3]) + " " + nodeBoard + "\n")
+                    stopEditing = True
+                else:
+                    if (stopEditing is False):
+                        bfsSolution.write(str(top[3]) + " " + nodeBoard + "\n")
+            else:
+                gameOver = True
+                break
+        #     print(len(openedList))
+        # print("node",nodeBoard)
+        # print(nodeBoard)
+        # print(openedList)
+        if (nodeBoard not in closedList and gameOver is False):
+            closedList.append(nodeBoard)
+            childNodeBoards = playForAllScenarios(top, top[1] + 1)
+    #     print(childNodeBoards)
+    bfsSearch.close()
+    bfsSolution.close()
+    print(stopEditing)
+    if(stopEditing is False):
+        bfsSolution2 = open("bfsSolution.txt", "w")
+        bfsSolution2.write("No Solution")
+        bfsSolution2.close()
+    # print(gameOver)
+    # print(closedList)
+    # print(openedList)
+
+
+
 
 
 
@@ -184,14 +333,8 @@ def dfs(boards):
 
 
 secondDimension = []
-secondDimension.append((inputBoard,1))
-inputboard2 = list("1111111111000111")
-inputboard3 = list("1111111111111111")
-inputboard4 = list("1011111111111111")
-secondDimension.append((inputboard2,1))
-secondDimension.append((inputboard3,1))
-secondDimension.append((inputboard4,1))
-print(heuristic(secondDimension))
+secondDimension.append((inputBoard,1,0,0))
+astar(secondDimension)
 # stack.append((inputBoard,1))
 # dfs(secondDimension)
 
