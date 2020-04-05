@@ -14,7 +14,7 @@ def readDocument(doc_file):
             words = line.strip().split()
             docs.append(''.join(words[3:]))
             languages.append(words[2])
-            tweets.append((''.join(words[3:]),words[2]))
+            tweets.append((words[3:],words[2]))
         string = ''.join(set(''.join(docs)))
         vocabulary = ''.join(letter for letter in string if letter.isalpha())
     return vocabulary,languages,tweets
@@ -28,8 +28,7 @@ def readTestingDocument(doc_file):
             tweetId.append(words[0])
             string = ''.join(words[3:])
             docs.append(string)
-            tweet = ''.join(letter for letter in string if letter.isalpha())
-            tweets.append((tweet, words[2]))
+            tweets.append((words[3:], words[2]))
         vocabularyString = ''.join(set(''.join(docs)))
         vocabulary = ''.join(letter for letter in vocabularyString if letter.isalpha())
     return tweets, tweetId, vocabulary
@@ -48,26 +47,28 @@ def uniGram(allTweets):
     sizeEnglish = 0
     sizePortuguese = 0
     for tweet in allTweets:
-        wo = ''.join(letter for letter in tweet[0] if letter.isalpha())
-        for x in range(len(wo)):
-            if (tweet[1] == 'eu'):
-                arrayBasque[wo[x]] += 1
-                sizeBasque += 1
-            if (tweet[1] == 'ca'):
-                arrayCatalan[wo[x]] += 1
-                sizeCatalan += 1
-            if (tweet[1] == 'gl'):
-                arrayGalician[wo[x]] += 1
-                sizeGalician += 1
-            if (tweet[1] == 'es'):
-                arraySpanish[wo[x]] += 1
-                sizeSpanish += 1
-            if (tweet[1] == 'en'):
-                arrayEnglish[wo[x]] += 1
-                sizeEnglish += 1
-            if (tweet[1] == 'pt'):
-                arrayPortuguese[wo[x]] += 1
-                sizePortuguese += 1
+        for word in tweet[0]:
+            word = word.lower()
+            for x in word:
+                if x.isalpha():
+                    if (tweet[1] == 'eu'):
+                        arrayBasque[x] += 1
+                        sizeBasque += 1
+                    if (tweet[1] == 'ca'):
+                        arrayCatalan[x] += 1
+                        sizeCatalan += 1
+                    if (tweet[1] == 'gl'):
+                        arrayGalician[x] += 1
+                        sizeGalician += 1
+                    if (tweet[1] == 'es'):
+                        arraySpanish[x] += 1
+                        sizeSpanish += 1
+                    if (tweet[1] == 'en'):
+                        arrayEnglish[x] += 1
+                        sizeEnglish += 1
+                    if (tweet[1] == 'pt'):
+                        arrayPortuguese[x] += 1
+                        sizePortuguese += 1
     return (arrayBasque,sizeBasque), (arrayCatalan,sizeCatalan) , (arrayGalician,sizeGalician) , (arraySpanish,sizeSpanish) , (arrayEnglish, sizeEnglish) , (arrayPortuguese,sizePortuguese)
 
 def biGram(allTweets):
@@ -84,26 +85,27 @@ def biGram(allTweets):
     sizeEnglish = 0
     sizePortuguese = 0
     for tweet in allTweets:
-        wo = ''.join(letter for letter in tweet[0] if letter.isalpha())
-        for x in range(len(wo) - 1):
-            if (tweet[1] == 'eu'):
-                arrayBasque[wo[x] + wo[x + 1]] += 1
-                sizeBasque += 1
-            if (tweet[1] == 'ca'):
-                arrayCatalan[wo[x] + wo[x + 1]] += 1
-                sizeCatalan += 1
-            if (tweet[1] == 'gl'):
-                arrayGalician[wo[x] + wo[x + 1]] += 1
-                sizeGalician += 1
-            if (tweet[1] == 'es'):
-                arraySpanish[wo[x] + wo[x + 1]] += 1
-                sizeSpanish += 1
-            if (tweet[1] == 'en'):
-                arrayEnglish[wo[x] + wo[x + 1]] += 1
-                sizeEnglish += 1
-            if (tweet[1] == 'pt'):
-                arrayPortuguese[wo[x] + wo[x + 1]] += 1
-                sizePortuguese += 1
+        for word in tweet[0]:
+            for x in range(len(word)-1):
+                if word[x].isalpha() and word[x+1].isalpha():
+                    if (tweet[1] == 'eu'):
+                        arrayBasque[word[x]+word[x+1]] += 1
+                        sizeBasque += 1
+                    if (tweet[1] == 'ca'):
+                        arrayCatalan[word[x]+word[x+1]] += 1
+                        sizeCatalan += 1
+                    if (tweet[1] == 'gl'):
+                        arrayGalician[word[x]+word[x+1]] += 1
+                        sizeGalician += 1
+                    if (tweet[1] == 'es'):
+                        arraySpanish[word[x]+word[x+1]] += 1
+                        sizeSpanish += 1
+                    if (tweet[1] == 'en'):
+                        arrayEnglish[word[x]+word[x+1]] += 1
+                        sizeEnglish += 1
+                    if (tweet[1] == 'pt'):
+                        arrayPortuguese[word[x]+word[x+1]] += 1
+                        sizePortuguese += 1
     return (arrayBasque, sizeBasque), (arrayCatalan, sizeCatalan), (arrayGalician, sizeGalician), (arraySpanish, sizeSpanish), (arrayEnglish, sizeEnglish), (arrayPortuguese, sizePortuguese)
 
 def triGram(allTweets):
@@ -120,26 +122,27 @@ def triGram(allTweets):
     sizeEnglish = 0
     sizePortuguese = 0
     for tweet in allTweets:
-        wo = ''.join(letter for letter in tweet[0] if letter.isalpha())
-        for x in range(len(wo)-2):
-            if(tweet[1] == 'eu'):
-                arrayBasque[wo[x]+wo[x+1]+wo[x+2]] += 1
-                sizeBasque += 1
-            if (tweet[1] == 'ca'):
-                arrayCatalan[wo[x]+wo[x+1]+wo[x+2]] += 1
-                sizeCatalan += 1
-            if (tweet[1] == 'gl'):
-                arrayGalician[wo[x]+wo[x+1]+wo[x+2]] += 1
-                sizeGalician += 1
-            if (tweet[1] == 'es'):
-                arraySpanish[wo[x]+wo[x+1]+wo[x+2]] += 1
-                sizeSpanish += 1
-            if (tweet[1] == 'en'):
-                arrayEnglish[wo[x]+wo[x+1]+wo[x+2]] += 1
-                sizeEnglish += 1
-            if (tweet[1] == 'pt'):
-                arrayPortuguese[wo[x]+wo[x+1]+wo[x+2]] += 1
-                sizePortuguese += 1
+        for word in tweet[0]:
+            for x in range(len(word)-2):
+                if word[x].isalpha() and word[x+1].isalpha() and word[x+2].isalpha():
+                    if (tweet[1] == 'eu'):
+                        arrayBasque[word[x]+word[x+1]+word[x+2]] += 1
+                        sizeBasque += 1
+                    if (tweet[1] == 'ca'):
+                        arrayCatalan[word[x]+word[x+1]+word[x+2]] += 1
+                        sizeCatalan += 1
+                    if (tweet[1] == 'gl'):
+                        arrayGalician[word[x]+word[x+1]+word[x+2]] += 1
+                        sizeGalician += 1
+                    if (tweet[1] == 'es'):
+                        arraySpanish[word[x]+word[x+1]+word[x+2]] += 1
+                        sizeSpanish += 1
+                    if (tweet[1] == 'en'):
+                        arrayEnglish[word[x]+word[x+1]+word[x+2]] += 1
+                        sizeEnglish += 1
+                    if (tweet[1] == 'pt'):
+                        arrayPortuguese[word[x]+word[x+1]+word[x+2]] += 1
+                        sizePortuguese += 1
     return (arrayBasque, sizeBasque), (arrayCatalan, sizeCatalan), (arrayGalician, sizeGalician), ( arraySpanish, sizeSpanish), (arrayEnglish, sizeEnglish), (arrayPortuguese, sizePortuguese)
 
 
@@ -176,12 +179,12 @@ def classify(tweet,smoothingProbability,vocabulary,basque,catalan,galician,spani
     probEnglish = 0
     probPortuguese = 0
     for gram in tweet:
-        probBasque += np.log((basque[0][gram] + smoothingProbability)/(len(vocabulary) + basque[1]))
-        probCatalan += np.log((catalan[0][gram] + smoothingProbability)/(len(vocabulary) + catalan[1]))
-        probGalician += np.log((galician[0][gram] + smoothingProbability)/(len(vocabulary) + galician[1]))
-        probSpanish += np.log((spanish[0][gram] + smoothingProbability)/(len(vocabulary) + spanish[1]))
-        probEnglish += np.log((english[0][gram] + smoothingProbability)/(len(vocabulary) + english[1]))
-        probPortuguese += np.log((portuguese[0][gram] + smoothingProbability)/(len(vocabulary) + portuguese[1]))
+        probBasque += np.log((basque[0][gram] + smoothingProbability) / ((len(vocabulary) * smoothingProbability) + basque[1]))
+        probCatalan += np.log((catalan[0][gram] + smoothingProbability) / ((len(vocabulary) * smoothingProbability) + catalan[1]))
+        probGalician += np.log((galician[0][gram] + smoothingProbability) / ((len(vocabulary) * smoothingProbability) + galician[1]))
+        probSpanish += np.log((spanish[0][gram] + smoothingProbability) / ((len(vocabulary) * smoothingProbability) + spanish[1]))
+        probEnglish += np.log((english[0][gram] + smoothingProbability) / ((len(vocabulary) * smoothingProbability) + english[1]))
+        probPortuguese += np.log((portuguese[0][gram] + smoothingProbability) / ((len(vocabulary) * smoothingProbability) + portuguese[1]))
     probabilityBasque = np.log(probabilityBasque) + probBasque
     probabilityCatalan = np.log(probabilityCatalan) + probCatalan
     probabilityGalician = np.log(probabilityGalician) + probGalician
@@ -207,14 +210,21 @@ def classify(tweet,smoothingProbability,vocabulary,basque,catalan,galician,spani
 def generateGram(tweet,n):
     arrayTweet = Counter()
     if n ==1:
-        for x in range(len(tweet[0])):
-            arrayTweet[tweet[0][x]] += 1
+        for word in tweet[0]:
+            word = word.lower()
+            for x in word:
+                if x.isalpha():
+                    arrayTweet[x] += 1
     if n ==2:
-        for x in range(len(tweet[0])-1):
-            arrayTweet[tweet[0][x]+tweet[0][x+1]] += 1
+        for word in tweet[0]:
+            for x in range(len(word)-1):
+                if word[x].isalpha() and word[x+1].isalpha():
+                    arrayTweet[word[x]+word[x+1]] += 1
     if n ==3:
-        for x in range(len(tweet[0])-2):
-            arrayTweet[tweet[0][x]+tweet[0][x+1]+tweet[0][x+2]] += 1
+        for word in tweet[0]:
+            for x in range(len(word)-2):
+                if word[x].isalpha() and word[x+1].isalpha() and word[x+2].isalpha():
+                    arrayTweet[word[x]+word[x+1]+word[x+2]] += 1
     return arrayTweet
 
 def runClassifier(n,tweets,smoothingProbability,vocabulary,basque,catalan,galician,spanish,english,portuguese,allTweetId,v):
@@ -362,8 +372,8 @@ def runClassifier(n,tweets,smoothingProbability,vocabulary,basque,catalan,galici
     traceFile.close()
     evaluationFile.close()
 def main():
-    V = 1
-    n = 2
+    V = 2
+    n = 3
     smooth = 0.5
     vocabularyTraining, languages, trainingTweets = readDocument('data.txt')
     testTweets,tweetID,vocabularyTest = readTestingDocument('test.txt')
